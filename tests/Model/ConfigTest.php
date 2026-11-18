@@ -10,14 +10,12 @@ use IntegerNet\SansecWatch\Model\DirectiveFlag;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
 
 /**
  * @covers \IntegerNet\SansecWatch\Model\Config
  */
-#[CoversClass(Config::class)]
 class ConfigTest extends TestCase
 {
     public function testReadsEnabledFlagAtStoreScope(): void

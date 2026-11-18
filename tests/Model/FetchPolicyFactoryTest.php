@@ -10,13 +10,11 @@ use IntegerNet\SansecWatch\Model\DirectiveFlag;
 use IntegerNet\SansecWatch\Model\DTO\Policy;
 use IntegerNet\SansecWatch\Model\FetchPolicyFactory;
 use Magento\Framework\Exception\LocalizedException;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \IntegerNet\SansecWatch\Model\FetchPolicyFactory
  */
-#[CoversClass(FetchPolicyFactory::class)]
 class FetchPolicyFactoryTest extends TestCase
 {
     public function testCreatesPolicyWithApplicableFlags(): void

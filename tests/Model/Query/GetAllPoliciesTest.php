@@ -9,13 +9,11 @@ use IntegerNet\SansecWatch\Model\Query\GetAllPolicies;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \IntegerNet\SansecWatch\Model\Query\GetAllPolicies
  */
-#[CoversClass(GetAllPolicies::class)]
 class GetAllPoliciesTest extends TestCase
 {
     private function createSelectStub(): Select

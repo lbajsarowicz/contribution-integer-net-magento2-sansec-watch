@@ -13,13 +13,11 @@ use Magento\Framework\Event\ManagerInterface;
 use Magento\PageCache\Model\Config as PageCacheConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \IntegerNet\SansecWatch\Service\UpdateFpc
  */
-#[CoversClass(UpdateFpc::class)]
 class UpdateFpcTest extends TestCase
 {
     public function testNothingIsDoneIfFpcIsDisabled(): void

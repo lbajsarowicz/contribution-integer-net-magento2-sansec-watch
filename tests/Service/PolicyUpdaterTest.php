@@ -16,14 +16,12 @@ use IntegerNet\SansecWatch\Service\UpdateFpc;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\FlagManager;
 use Magento\Framework\Serialize\Serializer\Serialize;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\ClockInterface;
 
 /**
  * @covers \IntegerNet\SansecWatch\Service\PolicyUpdater
  */
-#[CoversClass(PolicyUpdater::class)]
 class PolicyUpdaterTest extends TestCase
 {
     public function testPageCacheIsClearedIfPoliciesAreUpdated(): void

@@ -10,13 +10,11 @@ use IntegerNet\SansecWatch\Model\Exception\CouldNotUpdatePoliciesException;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \IntegerNet\SansecWatch\Model\Command\UpdatePolicies
  */
-#[CoversClass(UpdatePolicies::class)]
 class UpdatePoliciesTest extends TestCase
 {
     private AdapterInterface&MockObject $connection;
