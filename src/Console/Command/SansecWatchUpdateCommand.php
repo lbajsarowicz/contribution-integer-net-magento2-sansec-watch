@@ -25,9 +25,9 @@ use function __;
 
 class SansecWatchUpdateCommand extends Command
 {
-    private const string OPTION_DRY_RUN  = 'dry-run';
-    private const string OPTION_FORCE    = 'force';
-    private const string OPTION_STORE_ID = 'store-id';
+    private const OPTION_DRY_RUN  = 'dry-run';
+    private const OPTION_FORCE    = 'force';
+    private const OPTION_STORE_ID = 'store-id';
 
     public function __construct(
         private readonly Config $config,

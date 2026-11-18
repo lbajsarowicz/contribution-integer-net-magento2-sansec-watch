@@ -9,12 +9,12 @@ use IntegerNet\SansecWatch\Model\DTO\Policy;
 use IntegerNet\SansecWatch\Model\Exception\CouldNotUpdatePoliciesException;
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(UpdatePolicies::class)]
+/**
+ * @covers \IntegerNet\SansecWatch\Model\Command\UpdatePolicies
+ */
 class UpdatePoliciesTest extends TestCase
 {
     private AdapterInterface&MockObject $connection;
@@ -34,8 +34,7 @@ class UpdatePoliciesTest extends TestCase
         $this->updatePoliciesCommand = new UpdatePolicies($resourceConnection);
     }
 
-    #[Test]
-    public function doesNotExecuteInsertWhenNoPoliciesAreGiven(): void
+    public function testDoesNotExecuteInsertWhenNoPoliciesAreGiven(): void
     {
         $this->connection
             ->expects(self::never())
@@ -45,8 +44,7 @@ class UpdatePoliciesTest extends TestCase
         $this->updatePoliciesCommand->execute([]);
     }
 
-    #[Test]
-    public function deletesExistingRulesBeforeUpdating(): void
+    public function testDeletesExistingRulesBeforeUpdating(): void
     {
         $this->connection
             ->expects(self::once())
@@ -56,8 +54,7 @@ class UpdatePoliciesTest extends TestCase
         $this->updatePoliciesCommand->execute([]);
     }
 
-    #[Test]
-    public function savesPolicyRowsForTheRequestedStore(): void
+    public function testSavesPolicyRowsForTheRequestedStore(): void
     {
         $policy = new Policy('script-src', 'store.example');
         $this->connection
@@ -85,8 +82,7 @@ class UpdatePoliciesTest extends TestCase
         $this->updatePoliciesCommand->execute([$policy], storeId: 12);
     }
 
-    #[Test]
-    public function databaseQueriesAreRunInTransaction(): void
+    public function testDatabaseQueriesAreRunInTransaction(): void
     {
         $this->connection
             ->expects(self::once())
@@ -100,8 +96,7 @@ class UpdatePoliciesTest extends TestCase
         $this->updatePoliciesCommand->execute([]);
     }
 
-    #[Test]
-    public function transactionIsRolledBackInCaseOfAnyError(): void
+    public function testTransactionIsRolledBackInCaseOfAnyError(): void
     {
         self::expectException(CouldNotUpdatePoliciesException::class);
 

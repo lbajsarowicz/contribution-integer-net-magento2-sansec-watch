@@ -16,7 +16,7 @@ use Override;
 
 class ListPolicies extends Field
 {
-    private const int STARTING_VISIBLE_POLICIES_LIMIT = 7;
+    private const STARTING_VISIBLE_POLICIES_LIMIT = 7;
 
     protected $_template = 'IntegerNet_SansecWatch::system/config/form/list-policies.phtml';
 

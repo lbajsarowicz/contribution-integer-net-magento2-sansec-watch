@@ -10,22 +10,24 @@ use IntegerNet\SansecWatch\Model\DirectiveFlag;
 use IntegerNet\SansecWatch\Model\DTO\Policy;
 use IntegerNet\SansecWatch\Model\FetchPolicyFactory;
 use Magento\Framework\Exception\LocalizedException;
-use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FetchPolicyFactory::class)]
-#[AllowMockObjectsWithoutExpectations]
+/**
+ * @covers \IntegerNet\SansecWatch\Model\FetchPolicyFactory
+ */
 class FetchPolicyFactoryTest extends TestCase
 {
+    public function testCreatesPolicyWithApplicableFlags(): void
+    {
+        foreach (self::directiveProvider() as [$directive, $supportedFlags]) {
+            $this->assertPolicyWithApplicableFlags($directive, $supportedFlags);
+        }
+    }
+
     /**
      * @param list<DirectiveFlag> $supportedFlags
      */
-    #[Test]
-    #[DataProvider('directiveProvider')]
-    public function createsPolicyWithApplicableFlags(Directive $directive, array $supportedFlags): void
+    private function assertPolicyWithApplicableFlags(Directive $directive, array $supportedFlags): void
     {
         $config = self::createStub(Config::class);
         $config
@@ -59,8 +61,7 @@ class FetchPolicyFactoryTest extends TestCase
         );
     }
 
-    #[Test]
-    public function rejectsUnsupportedDirective(): void
+    public function testRejectsUnsupportedDirective(): void
     {
         $config  = self::createStub(Config::class);
         $factory = new FetchPolicyFactory($config);

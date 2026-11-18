@@ -11,7 +11,7 @@ use function sprintf;
 
 class SansecWatchFlag implements JsonSerializable
 {
-    public const string CODE = 'integernet_sansecwatch';
+    public const CODE = 'integernet_sansecwatch';
 
     public function __construct(
         public readonly string $hash,
