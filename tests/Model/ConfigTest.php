@@ -11,20 +11,21 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Store\Model\ScopeInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Uid\Uuid;
 
+/**
+ * @covers \IntegerNet\SansecWatch\Model\Config
+ */
 #[CoversClass(Config::class)]
 class ConfigTest extends TestCase
 {
-    #[Test]
-    public function readsEnabledFlagAtStoreScope(): void
+    public function testReadsEnabledFlagAtStoreScope(): void
     {
         $storeId = 7;
         $scopeConfig = $this->createMock(ScopeConfigInterface::class);
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isSetFlag')
             ->with(
                 'integernet_sansecwatch/general/enabled',
@@ -36,14 +37,13 @@ class ConfigTest extends TestCase
         self::assertTrue((new Config($scopeConfig))->isEnabled($storeId));
     }
 
-    #[Test]
-    public function readsIdAtStoreScope(): void
+    public function testReadsIdAtStoreScope(): void
     {
         $storeId = 7;
         $uuid = '685769a2-38a4-4d06-a19a-67a528197f51';
         $scopeConfig = $this->createMock(ScopeConfigInterface::class);
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getValue')
             ->with(
                 'integernet_sansecwatch/general/id',
@@ -55,12 +55,11 @@ class ConfigTest extends TestCase
         self::assertEquals(Uuid::fromString($uuid), (new Config($scopeConfig))->getId($storeId));
     }
 
-    #[Test]
-    public function usesDefaultConfigWhenNoStoreIsSelected(): void
+    public function testUsesDefaultConfigWhenNoStoreIsSelected(): void
     {
         $scopeConfig = $this->createMock(ScopeConfigInterface::class);
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isSetFlag')
             ->with('integernet_sansecwatch/general/enabled')
             ->willReturn(true);
@@ -68,12 +67,11 @@ class ConfigTest extends TestCase
         self::assertTrue((new Config($scopeConfig))->isEnabled());
     }
 
-    #[Test]
-    public function returnsExplicitDirectiveSetting(): void
+    public function testReturnsExplicitDirectiveSetting(): void
     {
         $scopeConfig = $this->createMock(ScopeConfigInterface::class);
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getValue')
             ->with(
                 'integernet_sansecwatch/directive/script_src/inline_allowed',
@@ -88,12 +86,11 @@ class ConfigTest extends TestCase
         self::assertTrue($config->getDirectiveSetting(Directive::ScriptSrc, DirectiveFlag::InlineAllowed));
     }
 
-    #[Test]
-    public function returnsFalseForExplicitNoSetting(): void
+    public function testReturnsFalseForExplicitNoSetting(): void
     {
         $scopeConfig = $this->createMock(ScopeConfigInterface::class);
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getValue')
             ->with(
                 'integernet_sansecwatch/directive/img_src/self_allowed',
@@ -108,13 +105,12 @@ class ConfigTest extends TestCase
         self::assertFalse($config->getDirectiveSetting(Directive::ImgSrc, DirectiveFlag::SelfAllowed));
     }
 
-    #[Test]
-    public function usesSameStoreIdForInheritedFallback(): void
+    public function testUsesSameStoreIdForInheritedFallback(): void
     {
         $storeId = 42;
         $scopeConfig = $this->createMock(ScopeConfigInterface::class);
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('getValue')
             ->with(
                 'integernet_sansecwatch/directive/style_src/inline_allowed',
@@ -123,7 +119,7 @@ class ConfigTest extends TestCase
             )
             ->willReturn('inherited');
         $scopeConfig
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('isSetFlag')
             ->with(
                 'integernet_sansecwatch/directive/inline_allowed',
@@ -138,8 +134,7 @@ class ConfigTest extends TestCase
         self::assertTrue($config->getDirectiveSetting(Directive::StyleSrc, DirectiveFlag::InlineAllowed, $storeId));
     }
 
-    #[Test]
-    public function throwsForInvalidDirectiveSetting(): void
+    public function testThrowsForInvalidDirectiveSetting(): void
     {
         $scopeConfig = self::createStub(ScopeConfigInterface::class);
         $scopeConfig

@@ -16,14 +16,14 @@ use function __;
 
 class Config implements GetApiUrlInterface
 {
-    public const string POLICY_TABLE = 'integernet_sansecwatch_policies';
+    public const POLICY_TABLE = 'integernet_sansecwatch_policies';
 
-    private const string GENERAL_ENABLED                   = 'integernet_sansecwatch/general/enabled';
-    private const string GENERAL_ID                        = 'integernet_sansecwatch/general/id';
-    private const string CRON_ENABLED                      = 'integernet_sansecwatch/cron/enabled';
-    private const string FPC_MODE                          = 'integernet_sansecwatch/fpc/mode';
-    private const string DIRECTIVE_DEFAULT_SETTING_PATTERN = 'integernet_sansecwatch/directive/%s';
-    private const string DIRECTIVE_SETTING_PATTERN         = 'integernet_sansecwatch/directive/%s/%s';
+    private const GENERAL_ENABLED                   = 'integernet_sansecwatch/general/enabled';
+    private const GENERAL_ID                        = 'integernet_sansecwatch/general/id';
+    private const CRON_ENABLED                      = 'integernet_sansecwatch/cron/enabled';
+    private const FPC_MODE                          = 'integernet_sansecwatch/fpc/mode';
+    private const DIRECTIVE_DEFAULT_SETTING_PATTERN = 'integernet_sansecwatch/directive/%s';
+    private const DIRECTIVE_SETTING_PATTERN         = 'integernet_sansecwatch/directive/%s/%s';
 
     public function __construct(
         private readonly ScopeConfigInterface $scopeConfig,

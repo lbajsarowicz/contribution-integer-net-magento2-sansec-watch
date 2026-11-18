@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace IntegerNet\SansecWatch\Test\Model\Command;
+namespace IntegerNet\SansecWatch\Test\Model\Query;
 
 use IntegerNet\SansecWatch\Model\DTO\Policy;
 use IntegerNet\SansecWatch\Model\Query\GetAllPolicies;
@@ -10,9 +10,11 @@ use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \IntegerNet\SansecWatch\Model\Query\GetAllPolicies
+ */
 #[CoversClass(GetAllPolicies::class)]
 class GetAllPoliciesTest extends TestCase
 {
@@ -35,8 +37,7 @@ class GetAllPoliciesTest extends TestCase
         return new GetAllPolicies($resourceConnection);
     }
 
-    #[Test]
-    public function returnEmptyListIfAnyExceptionIsThrown(): void
+    public function testReturnEmptyListIfAnyExceptionIsThrown(): void
     {
         $connection = self::createStub(AdapterInterface::class);
         $connection
@@ -51,8 +52,7 @@ class GetAllPoliciesTest extends TestCase
         self::assertCount(0, $getAllPoliciesQuery->execute());
     }
 
-    #[Test]
-    public function usesStorePoliciesAndCachesEachStoreSeparately(): void
+    public function testUsesStorePoliciesAndCachesEachStoreSeparately(): void
     {
         $connection = self::createMock(AdapterInterface::class);
         $connection
@@ -76,8 +76,7 @@ class GetAllPoliciesTest extends TestCase
         self::assertEquals($storeOnePolicies, $cachedStoreOnePolicies);
     }
 
-    #[Test]
-    public function fallsBackToDefaultPoliciesWhenStoreHasNoPolicies(): void
+    public function testFallsBackToDefaultPoliciesWhenStoreHasNoPolicies(): void
     {
         $connection = self::createMock(AdapterInterface::class);
         $connection

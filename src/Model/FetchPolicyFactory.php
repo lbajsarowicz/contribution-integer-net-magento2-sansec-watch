@@ -13,12 +13,12 @@ use function __;
 
 class FetchPolicyFactory
 {
-    private const array SOURCE_FLAGS = [
+    private const SOURCE_FLAGS = [
         DirectiveFlag::NoneAllowed,
         DirectiveFlag::SelfAllowed,
     ];
 
-    private const array SCRIPT_SOURCE_FLAGS = [
+    private const SCRIPT_SOURCE_FLAGS = [
         DirectiveFlag::NoneAllowed,
         DirectiveFlag::SelfAllowed,
         DirectiveFlag::InlineAllowed,
@@ -27,7 +27,7 @@ class FetchPolicyFactory
         DirectiveFlag::EventHandlersAllowed,
     ];
 
-    private const array STYLE_SOURCE_FLAGS = [
+    private const STYLE_SOURCE_FLAGS = [
         DirectiveFlag::NoneAllowed,
         DirectiveFlag::SelfAllowed,
         DirectiveFlag::InlineAllowed,

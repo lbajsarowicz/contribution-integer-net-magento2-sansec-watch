@@ -21,7 +21,7 @@ use function __;
 
 class Buttons extends Field
 {
-    private const string SANSEC_WATCH_DASHBOARD_URL = 'https://sansec.watch/d/%s';
+    private const SANSEC_WATCH_DASHBOARD_URL = 'https://sansec.watch/d/%s';
 
     protected $_template = 'IntegerNet_SansecWatch::system/config/form/buttons.phtml';
 

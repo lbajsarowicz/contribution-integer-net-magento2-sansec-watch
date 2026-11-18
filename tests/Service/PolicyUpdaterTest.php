@@ -15,19 +15,21 @@ use IntegerNet\SansecWatch\Service\PolicyUpdater;
 use IntegerNet\SansecWatch\Service\UpdateFpc;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\FlagManager;
+use Magento\Framework\Serialize\Serializer\Serialize;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\ClockInterface;
 
+/**
+ * @covers \IntegerNet\SansecWatch\Service\PolicyUpdater
+ */
 #[CoversClass(PolicyUpdater::class)]
 class PolicyUpdaterTest extends TestCase
 {
-    #[Test]
-    public function pageCacheIsClearedIfPoliciesAreUpdated(): void
+    public function testPageCacheIsClearedIfPoliciesAreUpdated(): void
     {
         $flag = new SansecWatchFlag(
-            hash('sha256', serialize([])),
+            hash('sha256', (new Serialize())->serialize([])),
             new DateTimeImmutable(),
             new DateTimeImmutable(),
         );
@@ -39,7 +41,7 @@ class PolicyUpdaterTest extends TestCase
         $flagDataMapperStub->method('map')->willReturn($flag);
 
         $updateFpc = $this->createMock(UpdateFpc::class);
-        $updateFpc->expects($this->once())->method('execute');
+        $updateFpc->expects(self::once())->method('execute');
 
         /** @noinspection PhpUnhandledExceptionInspection */
         (new PolicyUpdater(
@@ -52,13 +54,12 @@ class PolicyUpdaterTest extends TestCase
         ))->updatePolicies([new Policy('script-src', '*.integer-net.de')]);
     }
 
-    #[Test]
-    public function pageCacheIsIgnoredIfPoliciesAreNotUpdated(): void
+    public function testPageCacheIsIgnoredIfPoliciesAreNotUpdated(): void
     {
         $policies = [new Policy('script-src', '*.integer-net.de')];
 
         $flag = new SansecWatchFlag(
-            hash('sha256', serialize($policies)),
+            hash('sha256', (new Serialize())->serialize($policies)),
             new DateTimeImmutable(),
             new DateTimeImmutable(),
         );
@@ -70,7 +71,7 @@ class PolicyUpdaterTest extends TestCase
         $flagDataMapperStub->method('map')->willReturn($flag);
 
         $updateFpc = $this->createMock(UpdateFpc::class);
-        $updateFpc->expects($this->never())->method('execute');
+        $updateFpc->expects(self::never())->method('execute');
 
         /** @noinspection PhpUnhandledExceptionInspection */
         (new PolicyUpdater(
@@ -83,13 +84,12 @@ class PolicyUpdaterTest extends TestCase
         ))->updatePolicies($policies);
     }
 
-    #[Test]
-    public function policiesAreNotUpdatedIfHashDoesMatch(): void
+    public function testPoliciesAreNotUpdatedIfHashDoesMatch(): void
     {
         $policies = [new Policy('script-src', '*.integer-net.de')];
 
         $flag = new SansecWatchFlag(
-            hash('sha256', serialize($policies)),
+            hash('sha256', (new Serialize())->serialize($policies)),
             new DateTimeImmutable(),
             new DateTimeImmutable(),
         );
@@ -101,7 +101,7 @@ class PolicyUpdaterTest extends TestCase
         $flagDataMapperStub->method('map')->willReturn($flag);
 
         $updatePoliciesCommand = $this->createMock(UpdatePoliciesCommand::class);
-        $updatePoliciesCommand->expects($this->never())->method('execute');
+        $updatePoliciesCommand->expects(self::never())->method('execute');
 
         /** @noinspection PhpUnhandledExceptionInspection */
         (new PolicyUpdater(
@@ -115,11 +115,10 @@ class PolicyUpdaterTest extends TestCase
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    #[Test]
-    public function lastCheckedUpIsUpdatedWhenHashMatches(): void
+    public function testLastCheckedUpIsUpdatedWhenHashMatches(): void
     {
         $policies  = [new Policy('script-src', '*.integer-net.de')];
-        $hash      = hash('sha256', serialize($policies));
+        $hash      = hash('sha256', (new Serialize())->serialize($policies));
         $now       = new DateTimeImmutable();
         $yesterday = $now->sub(DateInterval::createFromDateString('1 day'));
         $flag      = new SansecWatchFlag($hash, $now, $yesterday);
@@ -133,7 +132,7 @@ class PolicyUpdaterTest extends TestCase
         $flagManager = $this->createMock(FlagManager::class);
         $flagManager->method('getFlagData')->willReturn([]);
         $flagManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('saveFlag')
             ->with(
                 SansecWatchFlag::getStoreCode(7),
@@ -156,11 +155,10 @@ class PolicyUpdaterTest extends TestCase
     }
 
     /** @noinspection PhpUnhandledExceptionInspection */
-    #[Test]
-    public function flagDataIsAlwaysUpdatedIfForceIsTrue(): void
+    public function testFlagDataIsAlwaysUpdatedIfForceIsTrue(): void
     {
         $policies  = [new Policy('script-src', '*.integer-net.de')];
-        $hash      = hash('sha256', serialize($policies));
+        $hash      = hash('sha256', (new Serialize())->serialize($policies));
         $now       = new DateTimeImmutable();
         $yesterday = $now->sub(DateInterval::createFromDateString('1 day'));
 
@@ -173,12 +171,12 @@ class PolicyUpdaterTest extends TestCase
         $flagDataMapperStub->method('map')->willReturn($flag);
 
         $updatePoliciesCommand = $this->createMock(UpdatePoliciesCommand::class);
-        $updatePoliciesCommand->expects($this->once())->method('execute')->with($policies);
+        $updatePoliciesCommand->expects(self::once())->method('execute')->with($policies);
 
         $flagManager = $this->createMock(FlagManager::class);
         $flagManager->method('getFlagData')->willReturn([]);
         $flagManager
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('saveFlag')
             ->with(
                 SansecWatchFlag::CODE,
