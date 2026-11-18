@@ -28,8 +28,11 @@ class PolicyUpdaterTest extends TestCase
 {
     public function testPageCacheIsClearedIfPoliciesAreUpdated(): void
     {
+        $serializedPolicies = (new Serialize())->serialize([]);
+        self::assertIsString($serializedPolicies);
+
         $flag = new SansecWatchFlag(
-            hash('sha256', (new Serialize())->serialize([])),
+            hash('sha256', $serializedPolicies),
             new DateTimeImmutable(),
             new DateTimeImmutable(),
         );
@@ -57,9 +60,11 @@ class PolicyUpdaterTest extends TestCase
     public function testPageCacheIsIgnoredIfPoliciesAreNotUpdated(): void
     {
         $policies = [new Policy('script-src', '*.integer-net.de')];
+        $serializedPolicies = (new Serialize())->serialize($policies);
+        self::assertIsString($serializedPolicies);
 
         $flag = new SansecWatchFlag(
-            hash('sha256', (new Serialize())->serialize($policies)),
+            hash('sha256', $serializedPolicies),
             new DateTimeImmutable(),
             new DateTimeImmutable(),
         );
@@ -87,9 +92,11 @@ class PolicyUpdaterTest extends TestCase
     public function testPoliciesAreNotUpdatedIfHashDoesMatch(): void
     {
         $policies = [new Policy('script-src', '*.integer-net.de')];
+        $serializedPolicies = (new Serialize())->serialize($policies);
+        self::assertIsString($serializedPolicies);
 
         $flag = new SansecWatchFlag(
-            hash('sha256', (new Serialize())->serialize($policies)),
+            hash('sha256', $serializedPolicies),
             new DateTimeImmutable(),
             new DateTimeImmutable(),
         );
@@ -117,8 +124,11 @@ class PolicyUpdaterTest extends TestCase
     /** @noinspection PhpUnhandledExceptionInspection */
     public function testLastCheckedUpIsUpdatedWhenHashMatches(): void
     {
-        $policies  = [new Policy('script-src', '*.integer-net.de')];
-        $hash      = hash('sha256', (new Serialize())->serialize($policies));
+        $policies = [new Policy('script-src', '*.integer-net.de')];
+        $serializedPolicies = (new Serialize())->serialize($policies);
+        self::assertIsString($serializedPolicies);
+
+        $hash      = hash('sha256', $serializedPolicies);
         $now       = new DateTimeImmutable();
         $yesterday = $now->sub(DateInterval::createFromDateString('1 day'));
         $flag      = new SansecWatchFlag($hash, $now, $yesterday);
@@ -157,8 +167,11 @@ class PolicyUpdaterTest extends TestCase
     /** @noinspection PhpUnhandledExceptionInspection */
     public function testFlagDataIsAlwaysUpdatedIfForceIsTrue(): void
     {
-        $policies  = [new Policy('script-src', '*.integer-net.de')];
-        $hash      = hash('sha256', (new Serialize())->serialize($policies));
+        $policies = [new Policy('script-src', '*.integer-net.de')];
+        $serializedPolicies = (new Serialize())->serialize($policies);
+        self::assertIsString($serializedPolicies);
+
+        $hash      = hash('sha256', $serializedPolicies);
         $now       = new DateTimeImmutable();
         $yesterday = $now->sub(DateInterval::createFromDateString('1 day'));
 
